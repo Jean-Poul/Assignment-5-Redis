@@ -21,8 +21,8 @@ redisRouts.route("/add_value").post(async (req, res) => {
   const key = Object.getOwnPropertyNames(req.body)[0];
   const value = req.body[key];
   await client.set(key, value);
-
-  const added = await client.get("mykey");
+  const added = await client.get(key);
+  await client.disconnect();
   res.json({ added });
 });
 module.exports = redisRouts;
