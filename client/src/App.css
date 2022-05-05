@@ -1,0 +1,140 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/**
+ * CSS3 Preloaders
+ * https://danielpietrasik.pl/animacje-css
+ **/
+
+.preloader {
+  background-color: rgb(219, 114, 114);
+  animation-name: example;
+  animation-duration: 8s;
+  animation-direction: reverse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes example {
+  0% {
+    background-color: rgb(255, 92, 92);
+  }
+
+  50% {
+    background-color: rgba(193, 233, 231, 0.973);
+  }
+  100% {
+    background-color: rgb(219, 114, 114);
+  }
+}
+
+.loader {
+  border: 8px solid #701981;
+  border-radius: 50%;
+  border-top: 3px solid #684662;
+  width: 30px;
+  height: 17px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * CSS3 Preloaders
+ * https://danielpietrasik.pl/animacje-css
+ **/
+
+.preloader {
+  background-color: rgb(219, 114, 114);
+  animation-name: example;
+  animation-duration: 8s;
+  animation-direction: reverse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes example {
+  0% {
+    background-color: rgb(255, 92, 92);
+  }
+
+  50% {
+    background-color: rgba(193, 233, 231, 0.973);
+  }
+  100% {
+    background-color: rgb(219, 114, 114);
+  }
+}
+
+.loader {
+  border: 8px solid #701981;
+  border-radius: 50%;
+  border-top: 3px solid #684662;
+  width: 90px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
