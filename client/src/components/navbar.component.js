@@ -11,6 +11,11 @@ export default class Navbar extends Component {
         <div className="collpase navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
+              <Link to="/redis" className="nav-link">
+                REDIS
+              </Link>
+            </li>
+            <li className="navbar-item">
               <Link to="/hashtags" className="nav-link">
                 Hashtags
               </Link>

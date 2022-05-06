@@ -8,6 +8,7 @@ import Hashtags from "./components/Hashtags";
 import Birthdays from "./components/Birthdays";
 import AddBirthday from "./components/AddBirthday";
 import Home from "./components/Home";
+import Redis from "./components/Redis";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Navbar />
         <br />
         <Route path="/" exact component={Home} />
+        <Route path="/redis" exact component={Redis} />
         <Route path="/hashtags" component={Hashtags} />
         <Route path="/birthdays" component={Birthdays} />
         <Route path="/addBirthday" component={AddBirthday} />
