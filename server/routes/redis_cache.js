@@ -1,5 +1,4 @@
 const redis = require("redis");
-// console.log(redis);
 const client = redis.createClient();
 const axios = require("axios");
 
@@ -18,8 +17,9 @@ client.on("error", function (err) {
   console.log("CLIENT ERROR:");
   console.log(err);
 });
-
 rds.route("/cache_data/:ttl?").get(async (req, res) => {
+  //await client.disconnect();
+
   const DEFAULT_EXP = 15;
   const set_key = "avr_wage";
   const ttl =
@@ -29,11 +29,14 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
   await client.connect();
   // Check if there is data in DB
   let data = await client.get("data");
-  let res_data = JSON.parse(data);
+  let res_data;
   if (data) {
+    res_data = JSON.parse(data);
+
     // cache data for given or default exp time
     await client.setEx("data", ttl, data);
     res_body.cached = true;
+    await sorted_set(set_key, res_data, client, res_body);
   } else {
     await axios.get(URL).then(
       // fetch data
@@ -41,6 +44,7 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
         res_data = response.data.data;
         //cache data
         await client.setEx("data", ttl, JSON.stringify(res_data));
+        await sorted_set(set_key, res_data, client, res_body);
       },
       (error) => {
         console.error("Error:", error);
@@ -48,6 +52,14 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
     );
   }
 
+
+  //delete sorted set from DB
+  await client.del(set_key);
+  await client.disconnect();
+
+  res.json(res_body);
+});
+const sorted_set = async (set_key, res_data, client, res_body) => {
   // an array of score-value objects
   const elements = [];
   res_data.forEach((d) => {
@@ -65,12 +77,6 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
   const top_score = top_result[0].score;
   const top_value = top_result[0].value;
   res_body.top_result = { score: top_score, value: JSON.parse(top_value) };
-
-  //delete sorted set from DB
-  await client.del(set_key);
-  await client.disconnect();
-
-  res.json(res_body);
-});
-
+  res_body.alldata = res_data;
+};
 module.exports = rds;

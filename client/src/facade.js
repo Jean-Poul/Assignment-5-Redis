@@ -1,4 +1,5 @@
-const URL = "http://127.0.0.1:5000/";
+const port = process.env.REACT_APP_PORT || 5555;
+const URL = `http://127.0.0.1:${port}/`;
 
 function handleHttpErrors(res) {
   if (!res.ok) {
@@ -38,10 +39,17 @@ function apiFacade() {
     return fetch(URL + "addbirthday", options).then(handleHttpErrors);
   };
 
+  const get_redis = (ttl) => {
+    return ttl
+      ? fetch(URL + "cache_data/" + ttl).then(handleHttpErrors)
+      : fetch(URL + "cache_data/").then(handleHttpErrors);
+  };
+
   return {
     get_tweets,
     get_birthdays,
     post_birthday,
+    get_redis,
   };
 }
 
