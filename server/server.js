@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(require("./routes/tweets"));
 app.use(require("./routes/birthdays"));
 app.use(require("./routes/redis"));
+app.use(require("./routes/redis_cache"));
 // get driver connection
 const dbo = require("./db/conn");
 
