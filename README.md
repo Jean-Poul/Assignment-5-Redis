@@ -16,3 +16,12 @@ Use Redis to enhance secondary respond times from these end points.
 Make use Redis to drill down in to the data and find some interesting point that can be fetched and displayed without the need to re-query the API all the time.
 Divide the data in to logical divisions using either sets, lists,hashed or one of the other types native to Redis.
 Specify a retention time for all values (Time to live)
+
+## SOLUTION:
+
+#### This project build up on the previous - MongoDB- assignment
+### Run Redis server instance locally on the default port
+### Clone this repo
+### cd to server, run npm install and then npm start
+### cd to client, run npm install and then npm start
+### Go to http://localhost:3000/redis and play with it. There are also answers to the questions asked.
