@@ -1,14 +1,11 @@
+const axios = require("axios");
+const express = require("express");
 const redis = require("redis");
 const client = redis.createClient();
-const axios = require("axios");
-
-// This is connectiong to on default port on lcalhost, to connect to a specific server provide data like this:
+// This is connectiong to Redis on default port on localhost. To connect to a specific server provide data like this:
 // createClient({
 //   url: 'redis://alice:foobared@awesome.redis.server:6380'
 // });
-
-const express = require("express");
-
 const rds = express.Router();
 const URL =
   "https://datausa.io/api/data?measures=Average%20Wage,Average%20Wage%20Appx%20MOE&drilldowns=Detailed%20Occupation";
@@ -17,9 +14,8 @@ client.on("error", function (err) {
   console.log("CLIENT ERROR:");
   console.log(err);
 });
-rds.route("/cache_data/:ttl?").get(async (req, res) => {
-  //await client.disconnect();
 
+rds.route("/cache_data/:ttl?").get(async (req, res) => {
   const DEFAULT_EXP = 15;
   const set_key = "avr_wage";
   const ttl =
@@ -32,7 +28,6 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
   let res_data;
   if (data) {
     res_data = JSON.parse(data);
-
     // cache data for given or default exp time
     await client.setEx("data", ttl, data);
     res_body.cached = true;
@@ -51,14 +46,12 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
       }
     );
   }
-
-
   //delete sorted set from DB
   await client.del(set_key);
   await client.disconnect();
-
   res.json(res_body);
 });
+
 const sorted_set = async (set_key, res_data, client, res_body) => {
   // an array of score-value objects
   const elements = [];
@@ -79,4 +72,5 @@ const sorted_set = async (set_key, res_data, client, res_body) => {
   res_body.top_result = { score: top_score, value: JSON.parse(top_value) };
   res_body.alldata = res_data;
 };
+
 module.exports = rds;
