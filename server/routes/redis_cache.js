@@ -18,18 +18,19 @@ client.on("error", function (err) {
 rds.route("/cache_data/:ttl?").get(async (req, res) => {
   const DEFAULT_EXP = 15;
   const set_key = "avr_wage";
+  const data_key = "data";
   const ttl =
     req.params.ttl && !isNaN(req.params.ttl) ? req.params.ttl : DEFAULT_EXP;
 
   const res_body = { cached: false };
   await client.connect();
   // Check if there is data in DB
-  let data = await client.get("data");
+  let data = await client.get(data_key);
   let res_data;
   if (data) {
     res_data = JSON.parse(data);
     // cache data for given or default exp time
-    await client.setEx("data", ttl, data);
+    await client.setEx(data_key, ttl, data);
     res_body.cached = true;
     await sorted_set(set_key, res_data, client, res_body);
   } else {
@@ -38,7 +39,7 @@ rds.route("/cache_data/:ttl?").get(async (req, res) => {
       async function (response) {
         res_data = response.data.data;
         //cache data
-        await client.setEx("data", ttl, JSON.stringify(res_data));
+        await client.setEx(data_key, ttl, JSON.stringify(res_data));
         await sorted_set(set_key, res_data, client, res_body);
       },
       (error) => {
